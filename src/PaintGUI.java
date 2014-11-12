@@ -138,7 +138,7 @@ class PaintGUI extends JFrame implements ActionListener, ChangeListener {
     /** Update the label that displays the position of the mouse to position (x, y)
      */
     public void setMousePosition(int x, int y) {
-        // TODO: Implement me!
+    	
     	mousePositionLabel.setText("Position: (" + x + ", " + y + ")");
     }
 
@@ -147,7 +147,7 @@ class PaintGUI extends JFrame implements ActionListener, ChangeListener {
         Object s= e.getSource();
 
         if (s == toolSizeSlider) {
-            // TODO: Implement me!
+        	
         	int val = toolSizeSlider.getValue();
 			if (val == 0){
 				val = 1;
@@ -162,7 +162,7 @@ class PaintGUI extends JFrame implements ActionListener, ChangeListener {
 
     /** Update the image size (dimensions) label. */
     private void updateSizeLabel() {
-        // TODO: Implement me!
+    	
     	sizeLabel.setText("Label Size: " + canvas.getImg().getWidth()
     			+ ", " + canvas.getImg().getHeight());
 
@@ -283,7 +283,7 @@ class PaintGUI extends JFrame implements ActionListener, ChangeListener {
     /** Process a click of menu item File -> Quit. */
     private void quitAction(ActionEvent e) {
         System.out.println("Action: Quit");
-        // TODO: Implement me!
+        
         if (imageUnsaved) {
 			saveAction(e);
 		}
@@ -332,7 +332,6 @@ class PaintGUI extends JFrame implements ActionListener, ChangeListener {
         else if (s == colorButton) {
             Color newColor = JColorChooser.showDialog(this,"Foreground Color",canvas.getColor());
 
-            // TODO: Implement me!
             canvas.setColor(newColor);
 			ImageIcon i = getIcon(canvas.getColor(),iconSize);
 			colorButton.setIcon(i);
@@ -340,7 +339,6 @@ class PaintGUI extends JFrame implements ActionListener, ChangeListener {
         else if (s == backColorButton) {
             Color newBackColor = JColorChooser.showDialog(this,"Background Color",canvas.getBackColor());
 
-            // TODO: Implement me!
             canvas.setBackColor(newBackColor);
 			ImageIcon i = getIcon(canvas.getBackColor(),iconSize);
 			backColorButton.setIcon(i);
@@ -439,7 +437,6 @@ class PaintGUI extends JFrame implements ActionListener, ChangeListener {
     /** Create a single-color icon of dimension size x size and color, meant
      * to be used as an icon for the foreground/background color buttons.  */
     private static ImageIcon getIcon(Color c, int size) {
-        // TODO: Implement me!
     	BufferedImage t = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = (Graphics2D) t.getGraphics();
 		g.setColor(c);
@@ -484,19 +481,13 @@ class PaintGUI extends JFrame implements ActionListener, ChangeListener {
         tools.add(circle);
 
         // Foreground color chooser
-        // TODO: After you implement the method getIcon, you should icons instead of text.
         ImageIcon icon= getIcon(canvas.getColor(),iconSize);
         colorButton= new JButton(icon);
-        //colorButton= new JButton("F. Color");		
-        //colorButton.setToolTipText("foreground color");
         colorButton.addActionListener(this);
 
         // Background color chooser
-        // TODO: After you implement the method getIcon, you should icons instead of text.
         ImageIcon backIcon= getIcon(canvas.getBackColor(),iconSize);
         backColorButton= new JButton(backIcon);
-        //backColorButton= new JButton("B. Color");
-        //backColorButton.setToolTipText("background color");
         backColorButton.addActionListener(this);
 
         JToolBar toolBar= new JToolBar(JToolBar.VERTICAL);

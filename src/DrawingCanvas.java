@@ -132,7 +132,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 		width= w;
 		height= h;
 		
-		// reset line/circle state
+		//reset line/circle state
 		pointGiven= false;
 		centerGiven= false;
 		
@@ -149,7 +149,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 	public void newImage(BufferedImage img) {
 		System.out.println("newImage");
 		
-		// reset line/circle state
+		//reset line/circle state
 		pointGiven= false;
 		centerGiven= false;
 
@@ -187,18 +187,15 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 
 		
 		g2d.drawImage(img, 0, 0, null);
-		
-		Point2D.Double endPoint = new Point2D.Double(pMouse.getX() - 0.5, pMouse.getY() - 0.5);
-	
+			
 		if (activeTool == Tool.LINE && pointGiven){
 			
-			Line2D.Double l= new Line2D.Double(linePoint.x, linePoint.y, pMouse.x, pMouse.y);
+			Line2D.Double line = new Line2D.Double(linePoint.x, linePoint.y, pMouse.x, pMouse.y);
 			Stroke extend= new BasicStroke(toolSize);
 			g2d.setStroke(extend);
 			g2d.setColor(color);
-			g2d.draw(l);
+			g2d.draw(line);
 		     
-			//g2d.drawLine((int) linePoint.getX(), (int) linePoint.getY(), (int) endPoint.getX(), (int) endPoint.getY());
 		}
 		 else if (activeTool == Tool.CIRCLE && centerGiven){
 			 
@@ -210,9 +207,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 				g2d.setStroke(thickCir);
 				g2d.setColor(color);
 				g2d.draw(cir);
-				
-			 //double radius = Math.sqrt(Math.pow(center.getX() - endPoint.getX(), 2) + Math.pow(center.getY() - endPoint.getY(), 2));
-			 //g2d.drawOval((int)(center.getX() - radius), (int)(center.getY() - radius), (int)(2 * radius), (int)(2 * radius));
+
 		 }
 			
 		setVisible(true);
@@ -288,8 +283,9 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 	private void updateMousePosition(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		// center of pixel
-		pMouse= new Point2D.Double(x+0.5, y+0.5);
+		
+		//center of pixel
+		pMouse = new Point2D.Double(x + 0.5, y + 0.5);
 	}
 	
 	/** Process the press of the mouse, given by e. */
@@ -306,9 +302,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 			Shape rect = new Rectangle2D.Double(pMouse.x - half, pMouse.y - half, toolSize, toolSize);
 			g2d.setColor(color);
 			g2d.fill(rect);
-			
-			//repaint();
-			//revalidate();
+
 
 		}
 		else if (activeTool == Tool.ERASER) {
@@ -318,12 +312,12 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 			g2d.setColor(backColor);
 			g2d.fill(rect);
 			
-			//repaint();
-			//revalidate();
+
 		}
 		else if (activeTool == Tool.COLOR_PICKER) {
 			System.out.println("mousePressed: pick color");
 			if ((e.getX() < this.width) && (e.getY() < this.height)){
+				
 				//We must get color based on mouse position
 				Color newColor = new Color(img.getRGB(e.getX(), e.getY()));
 	 			if (e.getButton() == MouseEvent.BUTTON1) {
@@ -346,31 +340,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 				g2d.setColor(color);
 				g2d.fill(s);
 			}
-			/*
-			int x = e.getX();
-			int y = e.getY();
-			Point2D.Double center = new Point2D.Double(x, y);
 			
-			double area = Math.PI * Math.pow(half, 2);
-			
-			int numPixels = (int) Math.ceil(area * 0.30);
-			
-			int i = 0;
-			
-			
-			//Paint 30% of the pixels located in the airbrush's circular spray area
-			while(i < numPixels){
-				int randX = x + gen.nextInt() % toolSize;
-				int randY = y + gen.nextInt() % toolSize;
-				
-				Point2D.Double randPoint = new Point2D.Double(randX, randY);
-				
-				//Paint as long as distance between random coordinate and center is leq half way point
-				 if(Math.sqrt(Math.pow(center.getX() - randPoint.getX(), 2) + Math.pow(center.getY() - randPoint.getY(), 2)) <= half){
-						g2d.setColor(getColor());
-						g2d.fillRect(randX, randY, getToolSize(), getToolSize());
-				 }
-			}*/
 		}
 		else if (activeTool == Tool.LINE){
 			System.out.println("mousePressed: line");
@@ -386,16 +356,12 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 			//Since we have one point, let's draw the line
 			else{
 				pointGiven = false;
-				Line2D.Double l = new Line2D.Double(linePoint.x, linePoint.y, pMouse.x, pMouse.y);
+				Line2D.Double line = new Line2D.Double(linePoint.x, linePoint.y, pMouse.x, pMouse.y);
 				Stroke s = new BasicStroke(toolSize);
 				g2d.setStroke(s);
 				g2d.setColor(color);
-				g2d.draw(l);
-				/*Point2D.Double endPoint = new Point2D.Double(e.getX(), e.getY());
-				
-			    g2d.drawLine((int)linePoint.getX(), (int)linePoint.getY(), (int)endPoint.getX(), (int)endPoint.getY());
-			    
-			    pointGiven = false;*/
+				g2d.draw(line);
+
 			}
 			
 		}
@@ -408,9 +374,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 					center = pMouse;
 					centerGiven = true;
 				}
-				  /*center = new Point2D.Double(e.getX(), e.getY());
-				  
-				  centerGiven = true;*/
+
 			}
 			
 			//If we have one point, draw the rest of the circle
@@ -423,13 +387,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 				g2d.setStroke(s);
 				g2d.setColor(color);
 				g2d.draw(c);
-				/*Point2D.Double endPoint = new Point2D.Double(e.getX(), e.getY());
-				
-				double radius = Math.sqrt(Math.pow(center.getX() - endPoint.getX(), 2) + Math.pow(center.getY() - endPoint.getY(), 2));
-				
-				g2d.drawOval((int)(center.getX() - radius), (int)(center.getY() - radius), (int)(2 * radius), (int)(2 * radius));
-				
-				centerGiven = false;*/
+
 			}
 			
 		}
@@ -537,39 +495,13 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 			}
 			g2d.setColor(color);
 			g2d.fill(p);
-			/*if(prevMousePos == null){
-				Shape rect = new Rectangle2D.Double(pMouse.x, pMouse.y, getToolSize(), getToolSize());
-				g2d.setColor(getColor());
-				g2d.fill(rect);
-				
-				repaint();
-				revalidate();
-			}
-			
-			//We must interpolate if mouse is moved fast
-			else{
-				Path2D.Double polygon = createPolygon(prevMousePos, pMouse, half);
-		        g2d.fill(polygon);
-			}*/
 			
 		}
 		else if (activeTool == Tool.ERASER) {
 			Path2D.Double p = DrawingCanvas.createPolygon(prevMousePos, pMouse, half);
 			g2d.setColor(backColor);
 			g2d.fill(p);
-			/*if(prevMousePos == null){
-				Shape rect = new Rectangle2D.Double(pMouse.x, pMouse.y, getToolSize(), getToolSize());
-				g2d.setColor(getBackColor());
-				g2d.fill(rect);
-				
-				repaint();
-				revalidate();
-			}
 			
-			else{
-				Path2D.Double polygon = createPolygon(prevMousePos, pMouse, half);
-		        g2d.fill(polygon);
-			}*/
 		}
 		else if (activeTool == Tool.COLOR_PICKER) {
 			// Nothing to do here.
@@ -583,28 +515,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 				g2d.setColor(color);
 				g2d.fill(s);
 			}
-			/*int x = e.getX();
-			int y = e.getY();
-			Point2D.Double center = new Point2D.Double(x, y);
 			
-			double area = Math.PI * Math.pow(half, 2);
-			
-			int numPixels = (int) Math.ceil(area * 0.30);
-			
-			int i = 0;
-			
-			while(i < numPixels){
-				int randX = x + gen.nextInt() % toolSize;
-				int randY = y + gen.nextInt() % toolSize;
-				
-				Point2D.Double randPoint = new Point2D.Double(randX, randY);
-				
-				 if(Math.sqrt(Math.pow(center.getX() - randPoint.getX(), 2) + Math.pow(center.getY() - randPoint.getY(), 2)) <= half){
-						g2d.setColor(getColor());
-						g2d.fillRect(randX, randY, getToolSize(), getToolSize());
-				 }
-			}*/
-
 		}
 		else {
 			System.err.println("active tool: " + activeTool);
@@ -620,14 +531,7 @@ public class DrawingCanvas extends JPanel implements MouseListener, MouseMotionL
 		updateMousePosition(e);
 		window.setMousePosition(e.getX(), e.getY());
 		repaint();
-		/*window.setMousePosition((int)pMouse.getX(), (int)pMouse.getY());
 		
-			//Active tool is circle or line and we know one of the points
-			if (centerGiven || pointGiven){
-				repaint();
-				revalidate();
-			}*/
-				  
 	}
 
 }
